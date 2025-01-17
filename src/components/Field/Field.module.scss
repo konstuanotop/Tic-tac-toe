@@ -1,0 +1,34 @@
+.Field {
+
+    &_game {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        width: 300px;
+        flex-wrap: wrap;
+        border: 1px solid #000;
+    }
+}
+
+.button {
+    margin-top: 30px;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: rgb(160, 159, 157);
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+
+    &:hover {
+        background-color: rgb(127, 126, 124);
+    }
+}
+
+.move {
+    font-size: 20px;
+}
+
+.finishText {
+    color: rgb(235, 255, 14);
+    font-size: 30px;
+}

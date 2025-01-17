@@ -1,0 +1,30 @@
+.Block {
+
+    width: 100px;
+    height: 100px;
+    border: 1px solid #000;
+    box-sizing: border-box;
+    background-color: rgb(160, 159, 157);
+    transition: background-color 0.3s ease;
+
+    &:hover {
+        cursor: pointer;
+        opacity: 0.1;
+    }
+}
+
+.circleSelected {
+    background-color: lightblue;
+
+    &:hover {
+        opacity: 1;
+    }
+}
+
+.xSelected {
+    background-color: lightcoral;
+
+    &:hover {
+        opacity: 1;
+    }
+}
