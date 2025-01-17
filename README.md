@@ -8,3 +8,5 @@
 Использовался:
 - хук useState
 - хук useEffect
+
+![tic-tac-toe](https://github.com/user-attachments/assets/0f66f28f-0f15-450e-aa24-951c3dfa58d9)
