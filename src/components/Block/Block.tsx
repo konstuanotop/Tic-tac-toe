@@ -1,53 +1,42 @@
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { useEffect, } from 'react';
 import styles from './Block.module.scss'
 import circle from '../../assets/img/circle.png'
 import x from '../../assets/img/X.png'
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../store/store';
+import { playerChoise, resetBlock } from '../../store/gameSlice';
 
 
-interface BlockProps {
-    id: number;
-    playerChange: boolean;
-    setPlayer1: React.Dispatch<React.SetStateAction<number[]>>;
-    setPlayer2: React.Dispatch<React.SetStateAction<number[]>>;
-    setPlayerChange: Dispatch<SetStateAction<boolean>>;
-    resetGame: boolean;
-    winner: number[] | null;
-}
+const Block: React.FC<{ id: number }> = ({ id }) => {
 
-const Block: React.FC<BlockProps> = ({ id, playerChange, setPlayer1, setPlayer2, setPlayerChange, resetGame, winner }) => {
+    const playerChange = useSelector((state: RootState) => state.game.playerChange);
+    const isResetGame = useSelector((state: RootState) => state.game.isResetGame);
+    const winner = useSelector((state: RootState) => state.game.winner);
+    const blocks = useSelector((state: RootState) => state.game.blocks);
 
-    const [isDisabled, setIsDisabled] = useState<boolean>(false);
-    const [select, setSelect] = useState<string | null>(null)
+    const dispatch = useDispatch();
 
-    const playerChoice = (id: number, playerChange: boolean) => {
-        if (playerChange === false) {
-            setPlayer1((prev) => ([...prev, id]))
-            setSelect('circle');
-
-        } else {
-            setPlayer2((prev) => ([...prev, id]))
-            setSelect('x')
-        }
-
-        setPlayerChange(!playerChange);
-        setIsDisabled(!isDisabled)
+    const handlePlayerChoise = () => {
+        dispatch(playerChoise({ id, playerChange }))
     }
 
     useEffect(() => {
-        if (resetGame) {
-            setIsDisabled(false);
-            setSelect(null);
+        if (isResetGame) {
+            dispatch(resetBlock(id))
         }
-    }, [resetGame])
+    }, [isResetGame, dispatch, id])
+
+    const block = blocks[id] || { isDisabled: false, select: null }
+
 
     return (
         <button
-            className={`${styles.Block} ${select === 'circle' ? styles.circleSelected : ''} ${select === 'x' ? styles.xSelected : ''}`}
-            disabled={isDisabled || winner !== null}
-            onClick={() => playerChoice(id, playerChange)}
+            className={`${styles.Block} ${block.select === 'circle' ? styles.circleSelected : ''} ${block.select === 'x' ? styles.xSelected : ''}`}
+            disabled={block.isDisabled || winner !== null}
+            onClick={() => handlePlayerChoise()}
         >
-            {select === 'circle' && <img src={circle} alt="Circle" />}
-            {select === 'x' && <img src={x} alt="X" />}
+            {block.select === 'circle' && <img src={circle} alt="Circle" />}
+            {block.select === 'x' && <img src={x} alt="X" />}
         </button>
     )
 }
